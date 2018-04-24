@@ -1,0 +1,25 @@
+<h1>Group Info</h1><br>
+
+<a href="/users/:user_id/allgroups">Dashboard</a><br>
+<a href="/users/:user_id/logout" data-method="delete" >Logout</a><br>
+
+<%= @current_group.group_name %><br>
+<%= @current_group.description %><br>
+<p>Created by:<%= @current_group.user.first_name %> <%= @current_group.user.last_name%></p>
+
+<% if current_user.groups_joined_ids.include?(@current_group.id)%>
+<form action = "/groups/<%= @current_group.id %>/leave" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="submit" value="Leave">
+</form>
+<%else%>
+<form action = "/groups/<%= @current_group.id %>/join" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="submit" value="Join">
+</form>
+<%end%>
+
+<p>Members:<%= @current_group.users_joined.count %></p>
+<% @current_group.users_joined.each do |x| %>
+<p><%= x.first_name %> <%= x.last_name %></p>
+<% end %>

@@ -1,0 +1,21 @@
+<h1>ALL GROUPS</h1>
+<a href="/users/:user_id/logout" data-method="delete" >Logout</a><br>
+
+<h2>Hi! <%=current_user.first_name%> <%=current_user.last_name%>!</h2>
+
+<p><% @groups.each do |group| %></p>
+    <% if current_user == group.user %>
+    <a href="/groups/<%= group.id %>/delete" data-method="delete">Delete</a><br>
+    <%end%>
+    <a href="/groups/<%= group.id %>/group_info"><%= group.group_name %></a><br>
+    <%= group.description %><br>
+    <%end%>
+
+<form action="/users/<%= current_user.id %>/newgroup" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <p>Organization Name</p><input type="text" name="group[group_name]">
+    <p>Description</p><input type="text" name="group[description]">
+    <input type="submit" value="Create Group">
+</form> 
+
+
